@@ -23,11 +23,11 @@ class vect
     ~vect();
     void print();
 
-    vect operator+(vect r);
-    friend vect operator-(vect&l,vect&r);
+    vect operator+(vect r); //В случае "vect&r" перестаёт работать выражения вида v1 + k*v2
+    friend vect operator-(vect&l,vect r); //В случае "vect&r" перестаёт работать выражения вида v1 - k*v2
     vect operator-();
-    vect operator=(const vect&r);
-    double operator*(vect&r);
+    vect operator=(const vect&r); // сonst нужен для корректной работы двойного присваивания
+    double operator*(vect&r);  
     friend vect operator*(double k, vect&r);
     friend class matr;
 };
@@ -54,10 +54,10 @@ class matr
     ~matr();
     void print();
 
-    matr operator+(matr r);
-    matr operator-(matr&r);
+    matr operator+(matr r); //В случае matr&r - перестаёт работать выражение вида m1 + k*m2
+    matr operator-(matr r); //В случае matr&r - перестаёт работать m1 - k*m2
     matr operator-();
-    matr operator=(const matr r);
+    matr operator=(const matr&r); // const нужен для работы двойного присваивания
     matr operator*(matr&r);
     friend matr operator*(double k, matr&r);
     vect operator*(vect&r);
@@ -151,7 +151,7 @@ vect vect::operator+(vect r)
 }
 
 // Функция вычитания векторов бинарная 
-vect operator-(vect&l, vect&r)
+vect operator-(vect &l, vect r)
 {
     vect tmp(l);
     for (int i = 0; i < tmp.dim; i++)
@@ -333,7 +333,7 @@ matr matr::operator+(matr r)
 }
 
 // Функция вычитания матриц бинарная
-matr matr::operator-(matr&r)
+matr matr::operator-(matr r)
 {
     matr tmp(dim);
      for (int i = 0; i < dim; i++)
@@ -361,7 +361,7 @@ matr matr::operator-()
 }
 
 // Функция присвоения матрице значения другой матрицы
-matr matr::operator=(const matr r)
+matr matr::operator=(const matr&r)
 {
     dim = r.dim;
     for (int i = 0; i < dim; i++)
@@ -528,25 +528,25 @@ int main()
     m11.print();
 
     cout<<"Работа функции умножения матрицы на вектор-столбец:"<<endl;
-    cout<<"v11 = m4((4,2,6),(3,1,7),(5,3,2)) * v4(4,2,3)"<<endl;
-    vect v11 = m4*v4;
-    v11.print();
+    cout<<"v12 = m4((4,2,6),(3,1,7),(5,3,2)) * v4(4,2,3)"<<endl;
+    vect v12 = m4*v4;
+    v12.print();
 
     cout<<"------------------------------------"<<endl;
     cout<<"Демонстрация работы сложных функций:"<<endl;
     cout<<"------------------------------------"<<endl;
 
-    cout<<"ПРИМЕР 1 (матрицы: двойное присваивание, сложение матрицы умноженной на число):"<<endl;
-    cout<<"m15 = m11 = m4((4,2,6),(3,1,7),(5,3,2)) + 5 * m1((1,0,0),(0,1,0),(0,0,1))"<<endl;
+    cout<<"ПРИМЕР 1 (матрицы: двойное присваивание, вычитание матрицы умноженной на число):"<<endl;
+    cout<<"m17 = m11 = 3 * m4((4,2,6),(3,1,7),(5,3,2)) - 5 * m1((1,0,0),(0,1,0),(0,0,1))"<<endl;
     matr m12(3);
-    matr m15 = m12 = m4 + 5 * m1;
-    m15.print();
+    matr m17 = m12 = 3 * m4 - 5 * m1;
+    m17.print();
 
     cout<<"ПРИМЕР 2 (векторы: двойное присваивание, сложение вектора умноженного на число):"<<endl;
-    cout<<"v15 = v12 = v4(4,2,3) + 3 * v7(3,1,2)"<<endl;
-    vect v12(3);
-    vect v15 = v12 = v4 + 3 * v7;
-    v15.print();
+    cout<<"v17 = v13 = 4 * v4(4,2,3) + 3 * v7(3,1,2)"<<endl;
+    vect v13(3);
+    vect v17 = v13 = 4 * v4 + 3 * v7;
+    v17.print();
 
     
 }
