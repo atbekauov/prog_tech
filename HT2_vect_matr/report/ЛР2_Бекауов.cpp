@@ -374,7 +374,6 @@ matr matr::operator=(const matr&r)
     return *this;
 }
 
-
 // Функция перемножения матриц;
  matr matr::operator*(matr&r)
 {
@@ -546,7 +545,5 @@ int main()
     cout<<"v17 = v13 = 4 * v4(4,2,3) + 3 * v7(3,1,2)"<<endl;
     vect v13(3);
     vect v17 = v13 = 4 * v4 + 3 * v7;
-    v17.print();
-
-    
+    v17.print();    
 }
