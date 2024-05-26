@@ -840,7 +840,7 @@ int main()
     tsquare *fig1;
     fig1 = new tromb();
 
-    
+
 
 
     while (window.isOpen())
